@@ -153,32 +153,32 @@ cpdefine("inline:com-chilipeppr-workspace-sample", ["chilipeppr_ready"], functio
          */
         init: function () {
 
-            // Most workspaces will instantiate the Serial Port JSON Server widget
-            this.loadSpjsWidget();
-            // Most workspaces will instantiate the Serial Port Console widget
-            this.loadConsoleWidget(function () {
-                setTimeout(function () {
-                    $(window).trigger('resize');
-                }, 100);
-            });
-
-            this.loadTemplateWidget();
-
-            // Create our workspace upper right corner triangle menu
-            this.loadWorkspaceMenu();
-            // Add our billboard to the menu (has name, url, picture of workspace)
-            this.addBillboardToWorkspaceMenu();
-
-            // Setup an event to react to window resize. This helps since
-            // some of our widgets have a manual resize to cleanly fill
-            // the height of the browser window. You could turn this off and
-            // just set widget min-height in CSS instead
-            this.setupResize();
-
-   //         this.load3dViewerWidget();
-            setTimeout(function () {
-                $(window).trigger('resize');
-            }, 100);
+   //         // Most workspaces will instantiate the Serial Port JSON Server widget
+   //         this.loadSpjsWidget();
+   //         // Most workspaces will instantiate the Serial Port Console widget
+   //         this.loadConsoleWidget(function () {
+   //             setTimeout(function () {
+   //                 $(window).trigger('resize');
+   //             }, 100);
+   //         });
+   //
+   //         this.loadTemplateWidget();
+   //
+   //         // Create our workspace upper right corner triangle menu
+   //         this.loadWorkspaceMenu();
+   //         // Add our billboard to the menu (has name, url, picture of workspace)
+   //         this.addBillboardToWorkspaceMenu();
+   //
+   //         // Setup an event to react to window resize. This helps since
+   //         // some of our widgets have a manual resize to cleanly fill
+   //         // the height of the browser window. You could turn this off and
+   //         // just set widget min-height in CSS instead
+   //         this.setupResize();
+   //
+   ////         this.load3dViewerWidget();
+   //         setTimeout(function () {
+   //             $(window).trigger('resize');
+   //         }, 100);
 
         },
         /**
