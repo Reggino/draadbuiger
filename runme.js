@@ -686,8 +686,8 @@ var generateWidgetDocs = function() {
 
     <!-- ChiliPeppr is based on bootstrap CSS. -->
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <script type="text/javascript" charset="utf-8" src="//code.jquery.com/jquery-2.1.0.min.js"></script>
-    <script type="text/javascript" charset="utf-8" src="//i2dcui.appspot.com/js/bootstrap/bootstrap_3_1_1.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="http://i2dcui.appspot.com/js/bootstrap/bootstrap_3_1_1.min.js"></script>
     
     <style type='text/css'>
     </style>
