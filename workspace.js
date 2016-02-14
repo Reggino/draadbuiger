@@ -59,28 +59,34 @@ cpdefine("inline:com-chilipeppr-workspace-sample", ["chilipeppr_ready"], functio
          * The workspace's init method. It loads the all the widgets contained in the workspace
          * and inits them.
          */
-        init: function() {
+        init: function () {
 
             // Most workspaces will instantiate the Serial Port JSON Server widget
             this.loadSpjsWidget();
             // Most workspaces will instantiate the Serial Port Console widget
-            this.loadConsoleWidget(function() {
-                setTimeout(function() { $(window).trigger('resize'); }, 100);
+            this.loadConsoleWidget(function () {
+                setTimeout(function () {
+                    $(window).trigger('resize');
+                }, 100);
             });
-            
+
             this.loadTemplateWidget();
-            
+
             // Create our workspace upper right corner triangle menu
             this.loadWorkspaceMenu();
             // Add our billboard to the menu (has name, url, picture of workspace)
             this.addBillboardToWorkspaceMenu();
-            
+
             // Setup an event to react to window resize. This helps since
             // some of our widgets have a manual resize to cleanly fill
             // the height of the browser window. You could turn this off and
             // just set widget min-height in CSS instead
             this.setupResize();
-            setTimeout(function() { $(window).trigger('resize'); }, 100);
+
+            this.load3dViewerWidget();
+            setTimeout(function () {
+                $(window).trigger('resize');
+            }, 100);
 
         },
         /**
@@ -88,7 +94,7 @@ cpdefine("inline:com-chilipeppr-workspace-sample", ["chilipeppr_ready"], functio
          * is used by the home page, the workspace picker, and the fork pulldown to show a
          * consistent name/image/description tag for the workspace throughout the ChiliPeppr ecosystem.
          */
-        getBillboard: function() {
+        getBillboard: function () {
             var el = $('#' + this.id + '-billboard').clone();
             el.removeClass("hidden");
             el.find('.billboard-desc').text(this.desc);
@@ -98,7 +104,7 @@ cpdefine("inline:com-chilipeppr-workspace-sample", ["chilipeppr_ready"], functio
          * Inject the billboard into the Workspace upper right corner pulldown which
          * follows the standard template for workspace pulldown menus.
          */
-        addBillboardToWorkspaceMenu: function() {
+        addBillboardToWorkspaceMenu: function () {
             // get copy of billboard
             var billboardEl = this.getBillboard();
             $('#' + this.id + ' .com-chilipeppr-ws-billboard').append(billboardEl);
@@ -106,30 +112,30 @@ cpdefine("inline:com-chilipeppr-workspace-sample", ["chilipeppr_ready"], functio
         /**
          * Listen to window resize event.
          */
-        setupResize: function() {
+        setupResize: function () {
             $(window).on('resize', this.onResize.bind(this));
         },
         /**
          * When browser window resizes, forcibly resize the Console window
          */
-        onResize: function() {
+        onResize: function () {
             if (this.widgetConsole) this.widgetConsole.resize();
         },
         /**
          * Load the Template widget via chilipeppr.load() so folks have a sample
          * widget they can fork as a starting point for their own.
          */
-        loadTemplateWidget: function(callback) {
+        loadTemplateWidget: function (callback) {
 
             chilipeppr.load(
                 "#com-chilipeppr-widget-template-instance",
                 "http://raw.githubusercontent.com/chilipeppr/widget-template/master/auto-generated-widget.html",
-                function() {
+                function () {
                     // Callback after widget loaded into #myDivWidgetTemplate
                     // Now use require.js to get reference to instantiated widget
                     cprequire(
                         ["inline:com-chilipeppr-widget-template"], // the id you gave your widget
-                        function(myObjWidgetTemplate) {
+                        function (myObjWidgetTemplate) {
                             // Callback that is passed reference to the newly loaded widget
                             console.log("Widget / Template just got loaded.", myObjWidgetTemplate);
                             myObjWidgetTemplate.init();
@@ -141,16 +147,16 @@ cpdefine("inline:com-chilipeppr-workspace-sample", ["chilipeppr_ready"], functio
         /**
          * Load the Serial Port JSON Server widget via chilipeppr.load()
          */
-        loadSpjsWidget: function(callback) {
+        loadSpjsWidget: function (callback) {
 
             var that = this;
 
             chilipeppr.load(
                 "#com-chilipeppr-widget-serialport-instance",
                 "http://fiddle.jshell.net/chilipeppr/vetj5fvx/show/light/",
-                function() {
+                function () {
                     console.log("mycallback got called after loading spjs module");
-                    cprequire(["inline:com-chilipeppr-widget-serialport"], function(spjs) {
+                    cprequire(["inline:com-chilipeppr-widget-serialport"], function (spjs) {
                         //console.log("inside require of " + fm.id);
                         spjs.setSingleSelectMode();
                         spjs.init({
@@ -163,7 +169,7 @@ cpdefine("inline:com-chilipeppr-workspace-sample", ["chilipeppr_ready"], functio
                         //spjs.consoleToggle();
 
                         that.widgetSpjs - spjs;
-                        
+
                         if (callback) callback(spjs);
 
                     });
@@ -173,20 +179,20 @@ cpdefine("inline:com-chilipeppr-workspace-sample", ["chilipeppr_ready"], functio
         /**
          * Load the Console widget via chilipeppr.load()
          */
-        loadConsoleWidget: function(callback) {
+        loadConsoleWidget: function (callback) {
             var that = this;
             chilipeppr.load(
                 "#com-chilipeppr-widget-spconsole-instance",
                 "http://fiddle.jshell.net/chilipeppr/rczajbx0/show/light/",
-                function() {
+                function () {
                     // Callback after widget loaded into #com-chilipeppr-widget-spconsole-instance
                     cprequire(
                         ["inline:com-chilipeppr-widget-spconsole"], // the id you gave your widget
-                        function(mywidget) {
+                        function (mywidget) {
                             // Callback that is passed reference to your newly loaded widget
                             console.log("My Console widget just got loaded.", mywidget);
                             that.widgetConsole = mywidget;
-                            
+
                             // init the serial port console
                             // 1st param tells the console to use "single port mode" which
                             // means it will only show data for the green selected serial port
@@ -205,13 +211,13 @@ cpdefine("inline:com-chilipeppr-workspace-sample", ["chilipeppr_ready"], functio
          * Load the workspace menu and show the pubsubviewer and fork links using
          * our pubsubviewer widget that makes those links for us.
          */
-        loadWorkspaceMenu: function(callback) {
+        loadWorkspaceMenu: function (callback) {
             // Workspace Menu with Workspace Billboard
             var that = this;
             chilipeppr.load(
                 "http://fiddle.jshell.net/chilipeppr/zMbL9/show/light/",
-                function() {
-                    require(['inline:com-chilipeppr-elem-pubsubviewer'], function(pubsubviewer) {
+                function () {
+                    require(['inline:com-chilipeppr-elem-pubsubviewer'], function (pubsubviewer) {
 
                         var el = $('#' + that.id + ' .com-chilipeppr-ws-menu .dropdown-menu-ws');
                         console.log("got callback for attachto menu for workspace. attaching to el:", el);
@@ -221,11 +227,29 @@ cpdefine("inline:com-chilipeppr-workspace-sample", ["chilipeppr_ready"], functio
                             that,
                             "Workspace"
                         );
-                        
+
                         if (callback) callback();
                     });
                 }
             );
         },
-    }
+
+        load3dViewerWidget: function (callback) {
+            chilipeppr.load(
+                "#draadbuiger-3dviewer",
+                "http://raw.githubusercontent.com/Reggino/draadbuiger-3dviewer/master/auto-generated-widget.html",
+                function () {
+                    // Callback after widget loaded into #myDivWidgetInsertedInto
+                    cprequire(
+                        ["inline:com-chilipeppr-widget-3dviewer"], // the id you gave your widget
+                        function (mywidget) {
+                            // Callback that is passed reference to your newly loaded widget
+                            console.log("My widget just got loaded.", mywidget);
+                            mywidget.init();
+                        }
+                    );
+                }
+            )
+        }
+    };
 });

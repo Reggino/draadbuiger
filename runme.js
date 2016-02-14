@@ -28,6 +28,8 @@ http.createServer(function(req, res) {
 
   var uri = url.parse(req.url).pathname;
   console.log("URL being requested:", uri);
+  var stdout = null;
+  var json = null
   
   if (uri == "/") {
 
@@ -59,13 +61,13 @@ http.createServer(function(req, res) {
     
     console.log("/pushtogithub called");
     
-    var stdout = pushToGithubSync()
+    stdout = pushToGithubSync();
     
-    var json = {
+    json = {
       success: true,
       desc: "Pushed to Github",
       log: stdout
-    }
+    };
     
     res.writeHead(200, {
       'Content-Type': 'application/json'
@@ -76,13 +78,13 @@ http.createServer(function(req, res) {
     
     console.log("/pullfromgithub called");
     
-    var stdout = pullFromGithubSync();
+    stdout = pullFromGithubSync();
     
-    var json = {
+    json = {
       success: true,
       desc: "Pulled from Github",
       log: stdout
-    }
+    };
     
     res.writeHead(200, {
       'Content-Type': 'application/json'
@@ -94,13 +96,13 @@ http.createServer(function(req, res) {
     
     console.log("/mergeFromCpTemplateRepo called");
     
-    var stdout = mergeFromCpTemplateRepo();
+    stdout = mergeFromCpTemplateRepo();
     
-    var json = {
+    json = {
       success: true,
       desc: "Merged the latest ChiliPeppr Template to this repo. Please check for merge conflicts. You can run \"git status\" for a summary of conflicts, if any.",
       log: stdout
-    }
+    };
     
     res.writeHead(200, {
       'Content-Type': 'application/json'
@@ -160,12 +162,12 @@ http.createServer(function(req, res) {
 String.prototype.regexIndexOf = function(regex, startpos) {
     var indexOf = this.substring(startpos || 0).search(regex);
     return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf;
-}
+};
 
-var fileAutoGeneratePath = "auto-generated-workspace.html"
-var fileJsPath = "workspace.js"
-var fileCssPath = "workspace.css"
-var fileHtmlPath = "workspace.html"
+var fileAutoGeneratePath = "auto-generated-workspace.html";
+var fileJsPath = "workspace.js";
+var fileCssPath = "workspace.css";
+var fileHtmlPath = "workspace.html";
 
 var widgetUrl = 'http://' +
     process.env.C9_PROJECT + '-' + process.env.C9_USER +
@@ -185,7 +187,7 @@ var widgetDocs = {};
 
 var init = function() {
     github = getGithubUrl();
-}
+};
 
 var isEvaled = false;
 var evalWidgetJs = function() {
@@ -233,7 +235,7 @@ var evalWidgetJs = function() {
       method: false,
       descSrc: "",
       descHtml: "",
-      descMd: "", // markdown
+      descMd: "" // markdown
     };
     var objDoc = widgetDocs[key];
     
@@ -324,7 +326,7 @@ var evalWidgetJs = function() {
     }
 
   }
-}
+};
 
 // We are passed in an indx which is where we start in the overall
 // widgetSrc. We look backwards, i.e. line/lines above for comments
@@ -334,7 +336,7 @@ var extractDocs = function(indx) {
     html: "", // html docs
     src: "",  // src docs
     md: ""    // markdown docs
-  }
+  };
   
   // if there is a */ up to this indx we've got a comment
   // reverse string to search backwards
@@ -377,7 +379,7 @@ var extractDocs = function(indx) {
     
   }
   return o;
-}
+};
 
 // create our own version of cpdefine so we can use the evalWidgetJs above
 cpdefine = function(myid, mydeps, callback) {
@@ -385,9 +387,9 @@ cpdefine = function(myid, mydeps, callback) {
   id = myid;
   deps = mydeps;
   //console.log("cool, our own cpdefine got called. id:", id, "deps:", deps);
-}
+};
 // define other top-level methods just to avoid errors
-requirejs = function() {}
+requirejs = function() {};
 requirejs.config = function() {};
 cprequire_test = function() {};
 
@@ -558,7 +560,7 @@ ChiliPeppr's Serial Port JSON Server is the basis for the
 of ChiliPeppr, what
 will you build on top of it?
 
-`
+`;
 
   /*
   var widgetUrl = 'http://' +
@@ -653,7 +655,7 @@ will you build on top of it?
   fs.writeFileSync("README.md", md);
   console.log("Rewrote README.md");
   
-}
+};
 
 var appendKeyValForMarkdown = function(data, id) {
   var str = "";
@@ -667,7 +669,7 @@ var appendKeyValForMarkdown = function(data, id) {
     str = '| (No signals defined in this widget/element) |';
   }
   return str;
-}
+};
 
 var generateWidgetDocs = function() {
   
@@ -1038,7 +1040,6 @@ var generateWidgetDocs = function() {
   html = html.replace(/\$row-methods-start[\s\S]+?\$row-methods-end/g, s);
 
   // now do pubsub signals
-  var s;
   s = appendKeyVal(widget.publish);
   html = html.replace(/\$row-publish-start[\s\S]+?\$row-publish-end/, s);
   s = appendKeyVal(widget.subscribe);
@@ -1057,14 +1058,14 @@ var generateWidgetDocs = function() {
   */
 
   return html;
-}
+};
 
 var reverseStr = function(s) {
   var o = '';
   for (var i = s.length - 1; i >= 0; i--)
     o += s[i];
   return o;
-}
+};
 
 var appendKeyVal = function(data, id) {
   var str = "";
@@ -1091,7 +1092,7 @@ var appendKeyVal = function(data, id) {
     str = '<tr><td colspan="2">(No signals defined in this workspace)</td></tr>';
   }
   return str;
-}
+};
 
 var generateCpLoadStmt = function() {
   
@@ -1119,7 +1120,7 @@ var generateCpLoadStmt = function() {
     // now capitalize the first letter of each word
     for (var i in arr) {
       var s = arr[i];
-      s = s.charAt(0).toUpperCase() + s.slice(1)
+      s = s.charAt(0).toUpperCase() + s.slice(1);
       arr[i] = s;
     }
     var idCamelCase = arr.join("");
@@ -1154,7 +1155,7 @@ var generateCpLoadStmt = function() {
   }
   
   return js;
-}
+};
 
 var pushToGithub = function() {
   var exec = require('child_process').execFile;
@@ -1165,7 +1166,7 @@ var pushToGithub = function() {
     console.log("stdout:", stdout);
   });
   console.log("Pushed to github");
-}
+};
 
 var pushToGithubSync = function() {
   
@@ -1182,7 +1183,7 @@ var pushToGithubSync = function() {
   console.log("Pushed to github sync. Stdout:", stdout);
   
   return stdout;
-}
+};
 
 var pushToGithubAsync = function() {
   var exec = require('child_process').exec;
@@ -1200,7 +1201,7 @@ var pushToGithubAsync = function() {
     });
   });
   console.log("Pushed to github");
-}
+};
 
 var pullFromGithubSync = function() {
   var proc = require('child_process');
@@ -1214,7 +1215,7 @@ var pullFromGithubSync = function() {
   console.log("Pulled from github sync. Stdout:", stdout);
   
   return stdout;
-}
+};
 
 var mergeFromCpTemplateRepo = function() {
   var proc = require('child_process');
@@ -1235,7 +1236,7 @@ var mergeFromCpTemplateRepo = function() {
   console.log("Pulled from github sync. Stdout:", stdout);
   
   return stdout;
-}
+};
 
 var forkYourOwnRepo = function() {
   /*
@@ -1246,7 +1247,7 @@ var forkYourOwnRepo = function() {
   git pull upstream master
   git push -u origin master
   */
-}
+};
 
 var generateInlinedFile = function() {
   // We are developing a widget with 3 main files of css, html, and js
@@ -1292,7 +1293,7 @@ var generateInlinedFile = function() {
   fs.writeFileSync(fileAutoGeneratePath, fileHtml);
   console.log("Updated " + fileAutoGeneratePath );
 
-}
+};
 
 var getMainPage = function() {
   var html = "";
@@ -1337,7 +1338,7 @@ var getMainPage = function() {
     '</pre>\n';
     
   return html;
-}
+};
 
 var getGithubUrl = function(callback) {
 
@@ -1368,6 +1369,6 @@ var getGithubUrl = function(callback) {
   //console.log("ret:", ret);
   return ret;
     
-}
+};
 
 init();
